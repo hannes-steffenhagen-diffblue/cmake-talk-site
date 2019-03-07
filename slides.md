@@ -11,3 +11,11 @@
 
 This is a paragraph of text.
 </section>
+
+<section>
+## Exciting!
+
+```
+$snippet("site/Main.hs")$
+```
+</section>

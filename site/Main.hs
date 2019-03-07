@@ -22,10 +22,15 @@ main = hakyll $ do
   copyRevealResources
   match "templates/*" $ do
     compile templateBodyCompiler
+  match "site/*" $ compile getResourceBody
   match "slides.md" $ do
    route . customRoute $ const "index.html"
-   compile $ do
-     pandocCompiler >>= loadAndApplyTemplate "templates/index.html" slides
+   compile $
+     getResourceString
+     >>= applyAsTemplate snippetField
+     >>= renderPandoc
+     >>= loadAndApplyTemplate "templates/index.html" slidesContext
 
-slides :: Context String
-slides = field "slides" $ \item -> return (itemBody item)
+slidesContext :: Context String
+slidesContext = mconcat
+  [field "slides" $ \item -> return (itemBody item)]
