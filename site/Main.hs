@@ -22,7 +22,7 @@ main = hakyll $ do
   copyRevealResources
   match "templates/*" $ do
     compile templateBodyCompiler
-  match "site/*" $ compile getResourceBody
+  match "examples/**" $ compile getResourceBody
   match "css/**" $ do
     route idRoute
     compile copyFileCompiler

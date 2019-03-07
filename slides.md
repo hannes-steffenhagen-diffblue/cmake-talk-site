@@ -13,9 +13,7 @@ This is a paragraph of text.
 </section>
 
 <section>
-## Exciting!
-
 ```
-$snippet("site/Main.hs")$
+$snippet("examples/hello-world/CMakeLists.txt")$
 ```
 </section>
