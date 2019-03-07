@@ -15,10 +15,17 @@ copyRevealResources = do
     revealResource x = match (revealPath x) $ do
       route . customRoute $ joinPath . tail . splitPath . toFilePath
       compile copyFileCompiler
-    revealPath = fromString . (++"/**/*") . ("reveal.js-3.7.0/"++)
+    revealPath = fromString . (++"/**") . ("reveal.js-3.7.0/"++)
 
 main :: IO ()
 main = hakyll $ do
   copyRevealResources
-  create ["index.html"] $ do
-    route idRoute
+  match "templates/*" $ do
+    compile templateBodyCompiler
+  match "slides.md" $ do
+   route . customRoute $ const "index.html"
+   compile $ do
+     pandocCompiler >>= loadAndApplyTemplate "templates/index.html" slides
+
+slides :: Context String
+slides = field "slides" $ \item -> return (itemBody item)

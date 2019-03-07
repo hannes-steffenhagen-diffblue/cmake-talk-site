@@ -2,3 +2,4 @@
 cmake-talk-site.cabal
 *~
 /_cache
+/_site
