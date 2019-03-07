@@ -32,3 +32,4 @@ executables:
     - -with-rtsopts=-N
     dependencies:
     - hakyll
+    - filepath
