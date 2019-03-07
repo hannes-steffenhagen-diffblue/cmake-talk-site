@@ -23,6 +23,9 @@ main = hakyll $ do
   match "templates/*" $ do
     compile templateBodyCompiler
   match "site/*" $ compile getResourceBody
+  match "css/**" $ do
+    route idRoute
+    compile copyFileCompiler
   match "slides.md" $ do
    route . customRoute $ const "index.html"
    compile $
