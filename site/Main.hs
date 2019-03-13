@@ -38,7 +38,7 @@ slidesContext :: Context String
 slidesContext = field "slides" $ \item -> return (itemBody item)
 
 snippetRangeField :: Context String
-snippetRangeField = Trace.trace "adding snippet range function" $ functionField "snippetRange" f where
+snippetRangeField = functionField "snippetRange" f where
   f [contentsPath, sFrom, sTo] _ = selectRange <$> loadBody (fromFilePath contentsPath) where
       selectRange = unlines . take (to - from + 1) . drop (from-1) . lines
       from = read sFrom
