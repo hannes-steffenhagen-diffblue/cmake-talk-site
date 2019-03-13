@@ -30,10 +30,17 @@ main = hakyll $ do
    route . customRoute $ const "index.html"
    compile $
      getResourceString
-     >>= applyAsTemplate snippetField
+     >>= applyAsTemplate (mconcat [snippetField, snippetRangeField])
      >>= renderPandoc
      >>= loadAndApplyTemplate "templates/index.html" slidesContext
 
 slidesContext :: Context String
-slidesContext = mconcat
-  [field "slides" $ \item -> return (itemBody item)]
+slidesContext = field "slides" $ \item -> return (itemBody item)
+
+snippetRangeField :: Context String
+snippetRangeField = Trace.trace "adding snippet range function" $ functionField "snippetRange" f where
+  f [contentsPath, sFrom, sTo] _ = selectRange <$> loadBody (fromFilePath contentsPath) where
+      selectRange = unlines . take (to - from + 1) . drop (from-1) . lines
+      from = read sFrom
+      to = read sTo
+  f xs _ = fail $ "snippetRange() takes 3 arguments, but " ++ (show $ length xs) ++ " provided"
