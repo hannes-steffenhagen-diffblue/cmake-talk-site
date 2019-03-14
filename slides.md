@@ -1,19 +1,18 @@
 <section>
-## Slide 1
-
-* List 1
-* List 2
-* List 3
+## CMake 101
+1. Talk through small CMake example project
+2. Try clarifying some concepts
+3. How we do it in CBMC 
 </section>
 
 <section>
-## Slide 2
-
-This is a paragraph of text.
+$partial("slides/hello-world.md")$
 </section>
 
 <section>
-```
-$snippet("examples/hello-world/CMakeLists.txt")$
-```
+$partial("slides/cmake-concepts.md")$
+</section>
+
+<section>
+Ok, what nao?
 </section>

@@ -22,6 +22,9 @@ description:         Please see the README on GitHub at <https://github.com/hann
 dependencies:
 - base >= 4.7 && < 5
 
+default-extensions:
+- OverloadedStrings
+
 executables:
   site:
     main:                Main.hs
@@ -33,3 +36,14 @@ executables:
     dependencies:
     - hakyll
     - filepath
+  watch:
+    main: Main.hs
+    source-dirs: watch
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - hinotify
+    - bytestring
+    - process

@@ -22,10 +22,13 @@ main = hakyll $ do
   copyRevealResources
   match "templates/*" $ do
     compile templateBodyCompiler
-  match "examples/**" $ compile getResourceBody
+  -- Include example files, excluding build artifacts
+  match ("examples/**" .&&. complement "examples/*/build/**") $ compile getResourceBody
   match "css/**" $ do
     route idRoute
     compile copyFileCompiler
+  match "slides/*.md" $ do
+    compile templateBodyCompiler
   match "slides.md" $ do
    route . customRoute $ const "index.html"
    compile $
