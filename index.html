@@ -25,37 +25,131 @@
 		<div class="reveal">
 			<div class="slides">
         <section>
-<h2 id="slide-1">Slide 1</h2>
+<h2 id="cmake-101">CMake 101</h2>
+<ol type="1">
+<li>Talk through small CMake example project</li>
+<li>Try clarifying some concepts</li>
+<li>How we do it in CBMC</li>
+</ol>
+</section>
+<section>
+<section>
+<h2 id="hello-world">Hello World</h2>
+</section>
+<section>
+<h3 id="consists-of">Consists of:</h3>
 <ul>
-<li>List 1</li>
-<li>List 2</li>
-<li>List 3</li>
+<li>A library that provides text formatting capabilities</li>
+<li>An executable that uses that library</li>
 </ul>
+<pre class="."><code>├── app_src
+│   └── main.cpp
+├── CMakeLists.txt
+├── include
+│   └── hello
+│       └── hello_world.hpp
+└── src
+    └── hello_world.cpp
+</code></pre>
 </section>
 <section>
-<h2 id="slide-2">Slide 2</h2>
-This is a paragraph of text.
+<h3 id="the-hello-world-library">The Hello World library</h3>
+<pre><code>// include/hello/hello_world.hpp
+#pragma once
+
+#include &lt;string&gt;
+
+std::string make_greeting(const std::string &amp;name);
+</code></pre>
+<pre><code>// src/hello_world.cpp
+#include &quot;hello/hello_world.hpp&quot;
+
+#include &lt;sstream&gt;
+
+std::string make_greeting(const std::string &amp;name)
+{
+  std::ostringstream out;
+  out &lt;&lt; &quot;Hello, &quot; &lt;&lt; name &lt;&lt; &quot;!&quot;;
+  return out.str();
+}
+</code></pre>
 </section>
 <section>
+<h3 id="the-application">The application</h3>
+<pre><code>// app_src/main.cpp
+#include &lt;iostream&gt;
+#include &lt;hello/hello_world.hpp&gt;
+
+int main()
+{
+  std::cout &lt;&lt; make_greeting(&quot;World&quot;) &lt;&lt; &#39;\n&#39;;
+}
+</code></pre>
+</section>
+<section>
+<h3 id="the-cmakelists.txt">The CMakeLists.txt</h3>
 <pre><code>cmake_minimum_required(VERSION 3.5)
-
 project(hello-world)
-
 add_library(hello-world-lib STATIC
   src/hello_world.cpp)
-
 target_include_directories(hello-world-lib
   PUBLIC
   include)
-
 add_executable(hello-world-exe
   app_src/main.cpp)
-
 target_link_libraries(hello-world-exe
   PRIVATE
   hello-world-lib)
 </code></pre>
+<aside class="notes">
+Pause here, discuss each element line separately
+</aside>
 </section>
+<section>
+<h3 id="build-run">Build &amp; run</h3>
+<pre><code>$ mkdir build
+$ cd build
+$ cmake &lt;path-to-project-dir&gt;
+$ cmake --build .
+$ ./hello-world-exe</code></pre>
+</section>
+</section>
+<section>
+<section>
+<h2 id="cmake-concepts">CMake concepts</h2>
+</section>
+<section>
+<p><em>configure</em> vs <em>build</em></p>
+<ul>
+<li>CMake not actually a <em>build</em> system on its own</li>
+<li>Instead, is used for <em>configuring</em> builds</li>
+<li>Actual building is done by some backend, e.g. Make, Ninja or Visual Studio</li>
+<li>Consequence: When target dependencies change, only <em>build</em> is updated. Reconfiguring only happens when CMake files themselves change!</li>
+</ul>
+<aside class="notes">
+Compare with autotools if anyone cares
+</aside>
+</section>
+<section>
+<p><em>targets</em> vs <em>properties</em> vs <em>variables</em></p>
+<ul>
+<li>A <em>target</em> is something for the buildsystem to produce or run (e.g. <code>add_executable</code> or <code>add_library</code>)</li>
+<li>Targets have <em>properties</em> - for example:
+<ul>
+<li>C++ standard to compile with</li>
+<li>Include directories</li>
+<li>Target dependencies</li>
+</ul></li>
+<li><em>variables</em> exist only at <em>configure</em> time, can be used to e.g. conditionally enable or disable targets or for configure time logic like setting compiler-dependent build flags</li>
+</ul>
+</section>
+<section>
+<p><em>functions</em> vs <em>macros</em></p>
+<ul>
+<li>CMake is a procedural scripting language and thus has way to create procedures (“functions”)</li>
+<li>In addition, also has macros (i.e. take <em>this</em> piece of code and replace it with <em>that</em> piece of code)</li>
+<li>Sometimes you need to use macros, if not, prefer functions ``` function(hello_function arg) message(&quot;Hello,</li>
+</ul>
 			</div>
 		</div>
 
