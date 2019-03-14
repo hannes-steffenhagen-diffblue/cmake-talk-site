@@ -116,9 +116,12 @@ $ ./hello-world-exe</code></pre>
 </section>
 <section>
 <section>
+<!-- open concepts -->
 <h2 id="cmake-concepts">CMake concepts</h2>
 </section>
+<p><!-- close concepts --></p>
 <section>
+<!-- open configure -->
 <p><em>configure</em> vs <em>build</em></p>
 <ul>
 <li>CMake not actually a <em>build</em> system on its own</li>
@@ -130,7 +133,9 @@ $ ./hello-world-exe</code></pre>
 Compare with autotools if anyone cares
 </aside>
 </section>
+<p><!-- close configure --></p>
 <section>
+<!-- open targets -->
 <p><em>targets</em> vs <em>properties</em> vs <em>variables</em></p>
 <ul>
 <li>A <em>target</em> is something for the buildsystem to produce or run (e.g. <code>add_executable</code> or <code>add_library</code>)</li>
@@ -143,13 +148,24 @@ Compare with autotools if anyone cares
 <li><em>variables</em> exist only at <em>configure</em> time, can be used to e.g. conditionally enable or disable targets or for configure time logic like setting compiler-dependent build flags</li>
 </ul>
 </section>
+<p><!-- close targets --></p>
 <section>
+<!-- open functions -->
 <p><em>functions</em> vs <em>macros</em></p>
 <ul>
 <li>CMake is a procedural scripting language and thus has way to create procedures (“functions”)</li>
 <li>In addition, also has macros (i.e. take <em>this</em> piece of code and replace it with <em>that</em> piece of code)</li>
-<li>Sometimes you need to use macros, if not, prefer functions ``` function(hello_function arg) message(&quot;Hello,</li>
+<li>Sometimes you need to use macros, if not, prefer functions</li>
 </ul>
+<pre><code>function(hello_function arg)
+message(&quot;Hello, ${arg}!&quot;)
+endfunction()</code></pre>
+</section>
+<p><!-- close functions --></p>
+</section>
+<section>
+Ok, what nao?
+</section>
 			</div>
 		</div>
 
